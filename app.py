@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
-
+from flask import Flask, render_template, request , make_response
+from weasyprint import HTML 
 app = Flask(__name__)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def form_page():
@@ -12,15 +13,16 @@ def form_page():
         date = request.form.get('date')
         summary = request.form.get('summary')
 
-        print("Received form data:")
-        print("Name:", name)
-        print("Email:", email)
-        print("Title:", title)
-        print("Category:", category)
-        print("Date:", date)
-        print("Summary:", summary)
+        rendered = render_template('report_template.html', 
+                                   name=name, title=title, category=category, date=date, summary=summary)
 
-        return "Form submitted successfully! (Check your terminal)"
+        pdf = HTML(string=rendered).write_pdf()
+
+        response = make_response(pdf)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = f'attachment; filename="{title}.pdf"'
+
+        return response
 
     return render_template('form.html')
 
