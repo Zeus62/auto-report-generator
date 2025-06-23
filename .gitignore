@@ -1,0 +1,24 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# Environment or system files
+.env
+.DS_Store
+
+# PDF reports output
+reports/
+
+# SQLite database
+*.db
+
+# C++ compiled binaries
+cpp/*.o
+cpp/*.out
+cpp/*.exe
+
+
+
